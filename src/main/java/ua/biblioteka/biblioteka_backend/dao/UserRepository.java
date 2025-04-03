@@ -6,5 +6,5 @@ import ua.biblioteka.biblioteka_backend.entity.User;
 import java.util.Optional;
 
 public interface UserRepository extends MongoRepository<User, String> {
-    Optional<User> findByUserEmail(String email);
+//    Optional<User> findByUserEmail(String email);
 }
