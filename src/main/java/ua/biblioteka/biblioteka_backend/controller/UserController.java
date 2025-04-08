@@ -1,5 +1,7 @@
 package ua.biblioteka.biblioteka_backend.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +13,7 @@ import ua.biblioteka.biblioteka_backend.entity.User;
 import java.util.List;
 import java.util.Optional;
 
+@Tag(name = "User")
 @RestController
 @Data
 @AllArgsConstructor
@@ -18,11 +21,14 @@ public class UserController {
 
     private final UserRepository userRepository;
 
-    @GetMapping("/users")
+    @GetMapping("/user")
     public ResponseEntity<List<User>> getAllUsers (){
         return ResponseEntity.ok(this.userRepository.findAll());
     }
 
+    @Operation(
+            summary = "Create new user"
+    )
     @PostMapping("/user")
     public ResponseEntity<User> createUser (@RequestBody UserDto userDto){
 
