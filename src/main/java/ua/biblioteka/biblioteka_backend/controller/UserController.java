@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @Operation(
-            summary = "Create new user"
+            summary = "Create and add new user"
     )
     @PostMapping("/user")
     public ResponseEntity<User> createUser (@RequestBody UserDto userDto){

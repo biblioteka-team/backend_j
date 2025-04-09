@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.biblioteka.biblioteka_backend.enums.UserRole;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ public class User {
     private String username;
     private String password;
     private String email;
-    private String roles; // "USER", "ADMIN"
+    private UserRole role; // "USER", "ADMIN"
 }
