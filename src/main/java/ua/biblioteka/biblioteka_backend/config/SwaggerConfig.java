@@ -21,6 +21,8 @@ public class SwaggerConfig {
                 )
                 .info(
                         new Info().title("BIBLIOTEKA API")
+                                .description("The API documentation for the BIBLIOTEKA")
+
                 );
     }
 }
