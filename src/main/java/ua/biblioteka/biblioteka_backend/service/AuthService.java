@@ -47,7 +47,7 @@ public class AuthService {
                 )
         );
         User user = userRepository.findByEmail(loginDTO.getEmail())
-                .orElseThrow(() -> new RuntimeException("Користувач не знайдений"));
+                .orElseThrow(() -> new RuntimeException("User not founded"));
 
         String jwtToken = jwtService.generateToken(user);
         return new AuthDTO(jwtToken);
