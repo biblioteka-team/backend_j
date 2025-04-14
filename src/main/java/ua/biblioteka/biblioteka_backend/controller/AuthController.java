@@ -1,6 +1,7 @@
 package ua.biblioteka.biblioteka_backend.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import ua.biblioteka.biblioteka_backend.service.AuthService;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "bearerAuth")
 public class AuthController {
     private final AuthService authService;
 

@@ -16,6 +16,8 @@ public class SwaggerConfig {
 
     @Bean
     public OpenAPI api() {
+        final String SECURITY_SCHEME_NAME = "bearerAuth";
+
         return new OpenAPI()
                 .servers(
                         List.of(
@@ -24,11 +26,25 @@ public class SwaggerConfig {
                 )
                 .info(
                         new Info().title("BIBLIOTEKA API")
-                                .description("The API documentation for the BIBLIOTEKA")
-                                .version("1.0.0"))
-                .addSecurityItem(new SecurityRequirement().addList("JavaInUseSecuritySchema"))
-                .components(new Components().addSecuritySchemes("JavaInUseSecuritySchema", new SecurityScheme()
-                        .name("JavaInUseSecuritySchema").type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")));
+                                .description("API for book online - shop Biblioteka")
+
+                )
+                .addSecurityItem(new SecurityRequirement().addList(SECURITY_SCHEME_NAME))
+                .components(new Components()
+                                .addSecuritySchemes(SECURITY_SCHEME_NAME,
+                                        new SecurityScheme()
+                                                .name(SECURITY_SCHEME_NAME)
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")
+                                )
+
+
+
+//                .addSecurityItem(new SecurityRequirement().addList("JavaInUseSecuritySchema"))
+//                .components(new Components().addSecuritySchemes("JavaInUseSecuritySchema", new SecurityScheme()
+//                        .name("JavaInUseSecuritySchema").type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT"))
+                );
 
     }
 }
