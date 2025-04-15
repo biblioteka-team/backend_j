@@ -1,9 +1,21 @@
-FROM eclipse-temurin:23-jdk-alpine
+FROM openjdk:23-jdk-oracle
 
-VOLUME /tmp
+WORKDIR /app
 
-COPY target/*.jar app.jar
+COPY . .
 
 ENTRYPOINT ["java","-jar","/app.jar"]
 
 EXPOSE 8080
+
+
+
+#WORKDIR /app
+#
+#COPY
+#
+#CMD ["java","-jar","/app.jar"]
+
+
+
+
