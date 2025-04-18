@@ -27,6 +27,7 @@ public class AuthService {
         }
 
         var user = User.builder()
+                .name(registerDTO.getName())
                 .email(registerDTO.getEmail())
                 .password(passwordEncoder.encode(registerDTO.getPassword()))
                 .role(registerDTO.getRole())
@@ -51,6 +52,11 @@ public class AuthService {
 
         String jwtToken = jwtService.generateToken(user);
         return new AuthDTO(jwtToken);
+    }
+
+    public String logout() {
+
+        return "Logout completed. Delete token on client.";
     }
 
 }

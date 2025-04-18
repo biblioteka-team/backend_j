@@ -33,4 +33,10 @@ public class AuthController {
     public ResponseEntity<AuthDTO> login(@RequestBody LoginDTO loginDTO) {
         return ResponseEntity.ok(authService.login(loginDTO));
     }
+
+    @Operation(summary = "LogOut user")
+    @PostMapping("/logout")
+    public ResponseEntity<String> logout() {
+        return ResponseEntity.ok(authService.logout());
+    }
 }
