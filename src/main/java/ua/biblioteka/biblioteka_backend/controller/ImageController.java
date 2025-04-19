@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Tag(name = "images")
+@Tag(name = "Images")
 @RestController
 @RequestMapping("/api/images")
 @RequiredArgsConstructor
@@ -30,7 +30,7 @@ public class ImageController {
     private final ImageRepository imageRepository;
 
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Add images")
+    @Operation(summary = "Add images only formats: .jpeg, .png, .webp and size max 5MB")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Images uploaded successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input")

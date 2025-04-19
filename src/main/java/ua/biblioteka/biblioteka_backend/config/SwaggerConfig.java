@@ -39,12 +39,6 @@ public class SwaggerConfig {
                                                 .scheme("bearer")
                                                 .bearerFormat("JWT")
                                 )
-
-
-
-//                .addSecurityItem(new SecurityRequirement().addList("JavaInUseSecuritySchema"))
-//                .components(new Components().addSecuritySchemes("JavaInUseSecuritySchema", new SecurityScheme()
-//                        .name("JavaInUseSecuritySchema").type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT"))
                 );
 
     }

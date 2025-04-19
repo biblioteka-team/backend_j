@@ -14,7 +14,7 @@ import ua.biblioteka.biblioteka_backend.dto.LoginDTO;
 import ua.biblioteka.biblioteka_backend.dto.RegisterDTO;
 import ua.biblioteka.biblioteka_backend.service.AuthService;
 
-@Tag(name = "auth")
+@Tag(name = "Auth")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor

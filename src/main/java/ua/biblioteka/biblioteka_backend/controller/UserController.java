@@ -11,7 +11,7 @@ import ua.biblioteka.biblioteka_backend.service.UserService;
 
 import java.util.List;
 
-@Tag(name = "users")
+@Tag(name = "Users")
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
