@@ -60,8 +60,13 @@ public class BookService {
     }
 
 
-    public List<BookDTO> searchBooks(String title, String author, Category category, Subcategory subcategory, BigDecimal price, Language language) {
-        List<Book> books = bookRepository.searchBooks(title, author, category, subcategory, price, language);
+//    public List<BookDTO> searchBooks(String title, String author, Category category, Subcategory subcategory, BigDecimal price, Language language) {
+//        List<Book> books = bookRepository.searchBooks(title, author, category, subcategory, price, language);
+//        return books.stream().map(bookMapper::toDTO).toList();
+//    }
+
+    public List<BookDTO> searchBooks(String title, String author, Category category, List<Subcategory> subcategories, BigDecimal price, Language language) {
+        List<Book> books = bookRepository.searchBooks(title, author, category, subcategories, price, language);
         return books.stream().map(bookMapper::toDTO).toList();
     }
 

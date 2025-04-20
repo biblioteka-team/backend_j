@@ -9,7 +9,11 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface BookCustomRepository {
-    List<Book> searchBooks(String name, String author, Category category, Subcategory subcategory,
+//    List<Book> searchBooks(String name, String author, Category category, Subcategory subcategory,
+//                           BigDecimal price, Language language);
+
+    List<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories,
                            BigDecimal price, Language language);
+
 
 }

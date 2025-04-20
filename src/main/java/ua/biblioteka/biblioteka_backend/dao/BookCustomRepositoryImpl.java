@@ -23,7 +23,7 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
     }
 
     @Override
-    public List<Book> searchBooks(String title, String author, Category category, Subcategory subcategory, BigDecimal price, Language language) {
+    public List<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories, BigDecimal price, Language language) {
         List<Criteria> criteriaList = new ArrayList<>();
 
         if (title != null && !title.isBlank()) {
@@ -38,8 +38,8 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
             criteriaList.add(Criteria.where("category").in(category));
         }
 
-        if (subcategory != null) {
-            criteriaList.add(Criteria.where("subcategory").in(subcategory));
+        if (subcategories != null && !subcategories.isEmpty()) {
+            criteriaList.add(Criteria.where("subcategories").in(subcategories));
 
         }
 

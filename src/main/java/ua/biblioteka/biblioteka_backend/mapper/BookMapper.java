@@ -3,6 +3,10 @@ package ua.biblioteka.biblioteka_backend.mapper;
 import org.springframework.stereotype.Component;
 import ua.biblioteka.biblioteka_backend.dto.BookDTO;
 import ua.biblioteka.biblioteka_backend.entity.Book;
+import ua.biblioteka.biblioteka_backend.entity.Image;
+
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 @Component
 public class BookMapper {
@@ -18,7 +22,12 @@ public class BookMapper {
         dto.setQuantity(book.getQuantity());
         dto.setLanguage(book.getLanguage());
         dto.setAgeRestriction(book.getAgeRestriction());
-//        dto.setImageIds(book.getImages());
+        dto.setPublisher(book.getPublisher());
+        dto.setYear(book.getYear());
+        dto.setDescription(book.getDescription());
+        dto.setImageIds(book.getImages() != null
+                ? book.getImages().stream().map(Image::getUrl).collect(Collectors.toList())
+                : Collections.emptyList());
         return dto;
     }
 
@@ -33,7 +42,9 @@ public class BookMapper {
         book.setQuantity(dto.getQuantity());
         book.setLanguage(dto.getLanguage());
         book.setAgeRestriction(dto.getAgeRestriction());
-//        book.setImages(dto.());
+        book.setPublisher(dto.getPublisher());
+        book.setYear(dto.getYear());
+        book.setDescription(dto.getDescription());
         return book;
     }
 }

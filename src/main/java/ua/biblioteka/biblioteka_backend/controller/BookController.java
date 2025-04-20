@@ -46,18 +46,29 @@ public class BookController {
 
     @Operation(summary = "Get books from params")
     @GetMapping("/search")
+//    public List<BookDTO> searchBooks(
+//            @RequestParam(required = false) String title,
+//            @RequestParam(required = false) String author,
+//            @RequestParam(required = false) Category category,
+//            @RequestParam(required = false) Subcategory subcategory,
+//            @RequestParam(required = false) BigDecimal price,
+//            @RequestParam(required = false) Language language
+//    ) {
+//      List<Book> books = bookService.searchBooks(title, author, category,subcategory, price, language);
+//       List<BookDTO> bookDTOs = books.stream().map(bookMapper::toDTO).collect(Collectors.toList());;
+//      return ResponseEntity.ok(bookDTOs);
+//        return bookService.searchBooks(title, author, category, subcategory, price, language);
+//    }
+
     public List<BookDTO> searchBooks(
             @RequestParam(required = false) String title,
             @RequestParam(required = false) String author,
             @RequestParam(required = false) Category category,
-            @RequestParam(required = false) Subcategory subcategory,
+            @RequestParam(required = false) List<Subcategory> subcategories,
             @RequestParam(required = false) BigDecimal price,
             @RequestParam(required = false) Language language
     ) {
-//        List<Book> books = bookService.searchBooks(title, author, category,subcategory, price, language);
-//        List<BookDTO> bookDTOs = books.stream().map(bookMapper::toDTO).collect(Collectors.toList());;
-//        return ResponseEntity.ok(bookDTOs);
-        return bookService.searchBooks(title, author, category, subcategory, price, language);
+        return bookService.searchBooks(title, author, category, subcategories, price, language);
     }
 
 
