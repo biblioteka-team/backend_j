@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Field;
+import ua.biblioteka.biblioteka_backend.dto.ImageDTO;
 import ua.biblioteka.biblioteka_backend.enums.Category;
 import ua.biblioteka.biblioteka_backend.enums.Language;
 import ua.biblioteka.biblioteka_backend.enums.Subcategory;

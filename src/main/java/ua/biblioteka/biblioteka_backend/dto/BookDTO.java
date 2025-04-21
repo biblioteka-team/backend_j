@@ -16,7 +16,7 @@ import java.util.List;
 public class BookDTO {
     private String title;
     private String author;
-    private List<String> imageIds;
+//    private List<String> imageIds;
     private String publisher;
     private int year;
     private String description;
@@ -26,4 +26,5 @@ public class BookDTO {
     private BigDecimal price;
     private int quantity;
     private Language language;
+    private List<ImageDTO> images;
 }

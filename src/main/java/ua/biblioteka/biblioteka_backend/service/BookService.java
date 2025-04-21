@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ua.biblioteka.biblioteka_backend.dao.BookRepository;
 import ua.biblioteka.biblioteka_backend.dao.ImageRepository;
 import ua.biblioteka.biblioteka_backend.dto.BookDTO;
+import ua.biblioteka.biblioteka_backend.dto.ImageDTO;
 import ua.biblioteka.biblioteka_backend.entity.Book;
 import ua.biblioteka.biblioteka_backend.entity.Image;
 import ua.biblioteka.biblioteka_backend.enums.Category;
@@ -33,7 +34,15 @@ public class BookService {
 //    }
 
     public Book createBook(BookDTO dto) {
-        List<Image> images = imageRepository.findAllById(dto.getImageIds());
+
+        List<String> imageIds = dto.getImages().stream()
+                .map(ImageDTO::getId)
+                .toList();
+
+        List<Image> images = imageRepository.findAllById(imageIds);
+
+
+//        List<Image> images = imageRepository.findAllById(dto.getImageIds());
         Book book = Book.builder()
                 .title(dto.getTitle())
                 .author(dto.getAuthor())
@@ -66,8 +75,16 @@ public class BookService {
 //    }
 
     public List<BookDTO> searchBooks(String title, String author, Category category, List<Subcategory> subcategories, BigDecimal price, Language language) {
+
         List<Book> books = bookRepository.searchBooks(title, author, category, subcategories, price, language);
-        return books.stream().map(bookMapper::toDTO).toList();
+        return books.stream()
+                .map(bookMapper::toDTO) // <- використовуємо маппер з images
+                .toList();
+
+
+
+//        List<Book> books = bookRepository.searchBooks(title, author, category, subcategories, price, language);
+//        return books.stream().map(bookMapper::toDTO).toList();
     }
 
 
@@ -79,7 +96,13 @@ public class BookService {
 
     public Book updateBook(String id, BookDTO dto) {
         Book book = getBookById(id).orElseThrow();
-        List<Image> images = imageRepository.findAllById(dto.getImageIds());
+        List<String> imageIds = dto.getImages().stream()
+                .map(ImageDTO::getId)
+                .toList();
+
+        List<Image> images = imageRepository.findAllById(imageIds);
+
+//        List<Image> images = imageRepository.findAllById(dto.getImageIds());
 
         book.setTitle(dto.getTitle());
         book.setAuthor(dto.getAuthor());
