@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import ua.biblioteka.biblioteka_backend.enums.OrderStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -27,7 +28,10 @@ public class Order {
     @DBRef
     private List<CartItem> items;
 
-    private BigDecimal totalPrice;
+    private BigDecimal totalAmount;
 
-    private LocalDateTime createdAt;
+    private LocalDateTime orderDate;
+
+
+    private OrderStatus status;
 }

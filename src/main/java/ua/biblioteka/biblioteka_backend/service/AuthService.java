@@ -22,15 +22,15 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthDTO register(RegisterDTO registerDTO) {
-        if (registerDTO.getRole() == Role.ADMIN && userRepository.existsByRole(Role.ADMIN)) {
-            throw new RuntimeException("Administrator already exists");
-        }
+//        if (registerDTO.getRole() == Role.ADMIN && userRepository.existsByRole(Role.ADMIN)) {
+//            throw new RuntimeException("Administrator already exists");
+//        }
 
-        var user = User.builder()
+        User user = User.builder()
                 .name(registerDTO.getName())
                 .email(registerDTO.getEmail())
                 .password(passwordEncoder.encode(registerDTO.getPassword()))
-                .role(registerDTO.getRole())
+                .role(Role.USER)
                 .enabled(true)
                 .build();
 

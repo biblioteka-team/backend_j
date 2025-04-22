@@ -30,7 +30,8 @@ public class User {
     private String email;
 
     @Field("role")
-    private Role role; // "USER", "ADMIN"
+    @Builder.Default
+    private Role role = Role.USER; // "USER", "ADMIN"
 
     private boolean enabled;
 }
