@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class CartItemDTO {
-//    private String id;
+    private String id;
 
     private String bookId;
 //    private String title;

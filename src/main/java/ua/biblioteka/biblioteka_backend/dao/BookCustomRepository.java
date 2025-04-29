@@ -1,5 +1,7 @@
 package ua.biblioteka.biblioteka_backend.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import ua.biblioteka.biblioteka_backend.entity.Book;
 import ua.biblioteka.biblioteka_backend.enums.Category;
 import ua.biblioteka.biblioteka_backend.enums.Language;
@@ -9,11 +11,9 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface BookCustomRepository {
-//    List<Book> searchBooks(String name, String author, Category category, Subcategory subcategory,
-//                           BigDecimal price, Language language);
 
-    List<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories,
-                           BigDecimal price, Language language);
+    Page<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories,
+                           BigDecimal price, Language language, Pageable pageable);
 
 
 }

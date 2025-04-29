@@ -24,5 +24,5 @@ public class Cart {
     private User user;
 
     @DBRef
-    List<CartItem> items = new ArrayList<>();
+    List<CartItem> items;
 }

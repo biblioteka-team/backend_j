@@ -22,10 +22,6 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthDTO register(RegisterDTO registerDTO) {
-//        if (registerDTO.getRole() == Role.ADMIN && userRepository.existsByRole(Role.ADMIN)) {
-//            throw new RuntimeException("Administrator already exists");
-//        }
-
         User user = User.builder()
                 .name(registerDTO.getName())
                 .email(registerDTO.getEmail())

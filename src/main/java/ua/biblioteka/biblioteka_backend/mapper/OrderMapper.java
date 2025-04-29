@@ -12,7 +12,7 @@ import ua.biblioteka.biblioteka_backend.enums.OrderStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Component
 public class OrderMapper {
@@ -21,17 +21,8 @@ public class OrderMapper {
 
     public OrderDTO toDTO(Order order) {
         return OrderDTO.builder()
-//                .id(order.getId())
-//                .userId(order.getUser().getId())
-//                .items(order.getItems().stream()
-//                        .map(this::toCartItemDTO)
-//                        .collect(Collectors.toList()))
-//                .totalAmount(order.getTotalAmount())
-//                .orderDate(order.getOrderDate())
-//                .status(order.getStatus())
-//                .build();
-//
-//    }
+
+
                 .id(order.getId())
                 .userId(order.getUser().getId())
                 .items(order.getItems())

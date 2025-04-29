@@ -1,5 +1,8 @@
 package ua.biblioteka.biblioteka_backend.dao;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -23,7 +26,7 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
     }
 
     @Override
-    public List<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories, BigDecimal price, Language language) {
+    public Page<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories, BigDecimal price, Language language, Pageable pageable) {
         List<Criteria> criteriaList = new ArrayList<>();
 
         if (title != null && !title.isBlank()) {
@@ -57,7 +60,12 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
         }
 
         Query query = new Query(finalCriteria);
-        return mongoTemplate.find(query, Book.class);
+        long total = mongoTemplate.count(query, Book.class);         // <--- загальна кількість документів
+        List<Book> books = mongoTemplate.find(query.with(pageable), Book.class); // <--- дані з пагінацією
+
+        return new PageImpl<>(books, pageable, total);
+
+
     }
 
 }
