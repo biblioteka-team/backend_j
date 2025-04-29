@@ -12,12 +12,14 @@ import org.springframework.http.ResponseEntity;
 
 import org.springframework.web.bind.annotation.*;
 
+import ua.biblioteka.biblioteka_backend.dto.BestsellerDto;
 import ua.biblioteka.biblioteka_backend.dto.BookResponseDto;
 
 import ua.biblioteka.biblioteka_backend.enums.Category;
 import ua.biblioteka.biblioteka_backend.enums.Language;
 import ua.biblioteka.biblioteka_backend.enums.Subcategory;
 import ua.biblioteka.biblioteka_backend.mapper.BookMapper;
+import ua.biblioteka.biblioteka_backend.service.BestsellerService;
 import ua.biblioteka.biblioteka_backend.service.BookService;
 
 import java.math.BigDecimal;
@@ -32,7 +34,7 @@ public class BookController {
 
     private final BookService bookService;
     private final BookMapper bookMapper;
-
+    private final BestsellerService bestsellerService;
 
     @Operation(summary = "Get all books")
     @GetMapping
@@ -68,6 +70,23 @@ public class BookController {
     ) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
         return bookService.searchBooks(title, author, category, subcategories, price, language, pageable);
+    }
+
+    @Operation(summary = "Get all books from bestseller")
+    @GetMapping("/bestseller")
+    public ResponseEntity<Page<BestsellerDto>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return ResponseEntity.ok(bestsellerService.getAll(pageable));
+    }
+
+    @Operation(summary = "Get books ID from bestseller")
+    @GetMapping("/bestseller/{id}")
+    public ResponseEntity<BestsellerDto> getByIdBes(@PathVariable String id) {
+        return ResponseEntity.ok(bestsellerService.getByIdBes(id));
     }
 
 
