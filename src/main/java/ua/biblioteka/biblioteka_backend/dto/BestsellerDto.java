@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 public class BestsellerDto {
     private String id;
-    private List<BookResponseDto> books;
+    private BookResponseDto book;
 }

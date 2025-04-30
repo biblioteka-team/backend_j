@@ -15,12 +15,14 @@ import org.springframework.web.bind.annotation.*;
 import ua.biblioteka.biblioteka_backend.dto.BestsellerDto;
 import ua.biblioteka.biblioteka_backend.dto.BookResponseDto;
 
+import ua.biblioteka.biblioteka_backend.dto.NewArrivalDto;
 import ua.biblioteka.biblioteka_backend.enums.Category;
 import ua.biblioteka.biblioteka_backend.enums.Language;
 import ua.biblioteka.biblioteka_backend.enums.Subcategory;
 import ua.biblioteka.biblioteka_backend.mapper.BookMapper;
 import ua.biblioteka.biblioteka_backend.service.BestsellerService;
 import ua.biblioteka.biblioteka_backend.service.BookService;
+import ua.biblioteka.biblioteka_backend.service.NewArrivalService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -35,6 +37,7 @@ public class BookController {
     private final BookService bookService;
     private final BookMapper bookMapper;
     private final BestsellerService bestsellerService;
+    private final NewArrivalService newArrivalService;
 
     @Operation(summary = "Get all books")
     @GetMapping
@@ -87,6 +90,23 @@ public class BookController {
     @GetMapping("/bestseller/{id}")
     public ResponseEntity<BestsellerDto> getByIdBes(@PathVariable String id) {
         return ResponseEntity.ok(bestsellerService.getByIdBes(id));
+    }
+
+    @Operation(summary = "Get all books from NewArrival")
+    @GetMapping("/new")
+    public ResponseEntity<Page<NewArrivalDto>> getAllNew(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return ResponseEntity.ok(newArrivalService.getAll(pageable));
+    }
+
+    @Operation(summary = "Get books ID from NewArrival")
+    @GetMapping("/new/{id}")
+    public ResponseEntity<NewArrivalDto> getByIdNew(@PathVariable String id) {
+        return ResponseEntity.ok(newArrivalService.getByIdNew(id));
     }
 
 

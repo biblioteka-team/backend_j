@@ -19,6 +19,6 @@ import java.util.List;
 public class Bestseller {
     @Id
     private String id;
-//    @DBRef
-    private List<String> bookIds;
+    @DBRef
+    private Book book;
 }

@@ -2,6 +2,7 @@ package ua.biblioteka.biblioteka_backend.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.biblioteka.biblioteka_backend.dao.CartItemRepository;
 import ua.biblioteka.biblioteka_backend.dao.CartRepository;
 import ua.biblioteka.biblioteka_backend.dao.OrderRepository;
@@ -31,21 +32,22 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
+    @Transactional
     public Order createOrder(String userId) {
-        Cart cart = cartRepository.findByUser_Id(userId).orElseThrow();
+        Cart cart = cartRepository.findByUser_Id(userId).orElseThrow(() -> new RuntimeException("Cart not found for user: " + userId));
 
-        List<CartItem> items = cart.getItems();
-        if (items == null || items.isEmpty()) {
+        List<CartItem> items = new ArrayList<>(cart.getItems()); // Create a copy to avoid ConcurrentModificationException
+        if (items.isEmpty()) {
             throw new RuntimeException("Cannot create order from empty cart");
         }
 
-        BigDecimal total = cart.getItems().stream()
+        BigDecimal total = items.stream()
                 .map(item -> item.getBook().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         Order order = Order.builder()
                 .user(cart.getUser())
-                .items(cart.getItems())
+                .items(items)
                 .totalAmount(total)
                 .orderDate(LocalDateTime.now())
                 .status(OrderStatus.NEW)
@@ -53,13 +55,44 @@ public class OrderService {
 
         Order savedOrder = orderRepository.save(order);
 
-
+        // Очищаємо кошик
         cart.getItems().clear();
         cartRepository.save(cart);
 
-        cartItemRepository.deleteAll(cart.getItems());
+        // Видаляємо елементи кошика з БД
+        cartItemRepository.deleteAll(items);
 
         return savedOrder;
+
+
+
+
+//        List<CartItem> items = cart.getItems();
+//        if (items == null || items.isEmpty()) {
+//            throw new RuntimeException("Cannot create order from empty cart");
+//        }
+//
+//        BigDecimal total = cart.getItems().stream()
+//                .map(item -> item.getBook().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+//                .reduce(BigDecimal.ZERO, BigDecimal::add);
+//
+//        Order order = Order.builder()
+//                .user(cart.getUser())
+//                .items(cart.getItems())
+//                .totalAmount(total)
+//                .orderDate(LocalDateTime.now())
+//                .status(OrderStatus.NEW)
+//                .build();
+//
+//        Order savedOrder = orderRepository.save(order);
+//
+//
+//        cart.getItems().clear();
+//        cartRepository.save(cart);
+//
+//        cartItemRepository.deleteAll(cart.getItems());
+//
+//        return savedOrder;
     }
 
     public List<Order> getOrdersByUser(String userId) {

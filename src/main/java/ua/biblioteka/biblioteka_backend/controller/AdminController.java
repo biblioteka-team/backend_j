@@ -13,6 +13,7 @@ import ua.biblioteka.biblioteka_backend.dto.*;
 import ua.biblioteka.biblioteka_backend.entity.Book;
 import ua.biblioteka.biblioteka_backend.service.BestsellerService;
 import ua.biblioteka.biblioteka_backend.service.BookService;
+import ua.biblioteka.biblioteka_backend.service.NewArrivalService;
 
 @Tag(name = "Admin")
 @RestController
@@ -21,6 +22,7 @@ import ua.biblioteka.biblioteka_backend.service.BookService;
 public class AdminController {
     private final BookService bookService;
     private final BestsellerService bestsellerService;
+    private final NewArrivalService newArrivalService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create and add new books")
@@ -37,10 +39,24 @@ public class AdminController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Add books in NewArrival")
+    @PostMapping("/book/new")
+    public ResponseEntity<NewArrivalDto> create(@RequestBody @Valid NewArrivalRequestDTO dto) {
+        return new ResponseEntity<>(newArrivalService.create(dto), HttpStatus.CREATED);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Put book")
     @PutMapping("/book/{id}")
     public ResponseEntity<BookResponseDto> update(@PathVariable String id, @RequestBody @Valid BookRequestDto dto) {
         return ResponseEntity.ok(bookService.updateBook(id, dto));
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Put book in NewArrival")
+    @PutMapping("/book/new/{id}")
+    public ResponseEntity<NewArrivalDto> update(@PathVariable String id, @RequestBody @Valid NewArrivalRequestDTO dto) {
+        return ResponseEntity.ok(newArrivalService.update(id, dto));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -66,6 +82,16 @@ public class AdminController {
         bookService.deleteBook(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Delete book from NewArrival")
+    @DeleteMapping("/book/new/{id}")
+    public ResponseEntity<Void> removeNew(@PathVariable String id) {
+        newArrivalService.remove(id);
+        return ResponseEntity.noContent().build();
+    }
+
+
 
 }
 

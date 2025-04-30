@@ -20,5 +20,5 @@ public class NewArrival {
     @Id
     private String id;
     @DBRef
-    private List<Book> books = new ArrayList<>();
+    private Book book;
 }

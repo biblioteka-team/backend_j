@@ -5,9 +5,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.biblioteka.biblioteka_backend.dao.BestsellerRepository;
+import ua.biblioteka.biblioteka_backend.dao.BookRepository;
 import ua.biblioteka.biblioteka_backend.dto.BestsellerDto;
 import ua.biblioteka.biblioteka_backend.dto.BestsellerRequestDto;
 import ua.biblioteka.biblioteka_backend.entity.Bestseller;
+import ua.biblioteka.biblioteka_backend.entity.Book;
 import ua.biblioteka.biblioteka_backend.mapper.BestsellerMapper;
 
 @Service
@@ -16,6 +18,7 @@ public class BestsellerServiceImpl implements BestsellerService{
 
     private final BestsellerRepository bestsellerRepository;
     private final BestsellerMapper bestsellerMapper;
+    private final BookRepository bookRepository;
 
     @Override
     public BestsellerDto create(BestsellerRequestDto dto) {
@@ -46,7 +49,13 @@ public class BestsellerServiceImpl implements BestsellerService{
         Bestseller existing = bestsellerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Bestseller not found with id: " + id));
 
-        existing.setBookIds(dto.getBookIds());
-        return bestsellerMapper.toDto(bestsellerRepository.save(existing));
+        Book bookToUpdate = bookRepository.findById(dto.getBookId())
+                .orElseThrow(() -> new RuntimeException("Book not found with id: " + dto.getBookId()));
+
+        existing.setBook(bookToUpdate);
+
+                return bestsellerMapper.toDto(bestsellerRepository.save(existing));
+
+
     }
 }
