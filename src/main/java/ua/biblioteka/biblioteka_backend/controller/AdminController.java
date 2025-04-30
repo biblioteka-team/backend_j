@@ -14,6 +14,7 @@ import ua.biblioteka.biblioteka_backend.entity.Book;
 import ua.biblioteka.biblioteka_backend.service.BestsellerService;
 import ua.biblioteka.biblioteka_backend.service.BookService;
 import ua.biblioteka.biblioteka_backend.service.NewArrivalService;
+import ua.biblioteka.biblioteka_backend.service.PromotionService;
 
 @Tag(name = "Admin")
 @RestController
@@ -23,6 +24,7 @@ public class AdminController {
     private final BookService bookService;
     private final BestsellerService bestsellerService;
     private final NewArrivalService newArrivalService;
+    private final PromotionService promotionService;
 
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Create and add new books")
@@ -45,6 +47,13 @@ public class AdminController {
         return new ResponseEntity<>(newArrivalService.create(dto), HttpStatus.CREATED);
     }
 
+    @PostMapping("/book/promotion")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Add books in Promotion")
+    public ResponseEntity<PromotionResponseDto> create(@RequestBody @Valid PromotionRequestDto dto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(promotionService.create(dto));
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Put book")
     @PutMapping("/book/{id}")
@@ -64,6 +73,14 @@ public class AdminController {
     @PutMapping("/book/bestseller/{id}")
     public ResponseEntity<BestsellerDto> update(@PathVariable String id, @RequestBody @Valid BestsellerRequestDto dto) {
         return ResponseEntity.ok(bestsellerService.update(id, dto));
+    }
+
+    @PutMapping("/book/promotion/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Put book in Promotion")
+    public ResponseEntity<PromotionResponseDto> update(@PathVariable String id,
+                                                       @RequestBody @Valid PromotionRequestDto dto) {
+        return ResponseEntity.ok(promotionService.update(id, dto));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -90,6 +107,14 @@ public class AdminController {
         newArrivalService.remove(id);
         return ResponseEntity.noContent().build();
     }
+
+    @DeleteMapping("/book/promotion/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteProm(@PathVariable String id) {
+        promotionService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 
 
