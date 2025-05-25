@@ -26,7 +26,7 @@ public class User {
 
     private String password;
 
-
+    @Indexed(unique = true)
     private String email;
 
     @Field("role")

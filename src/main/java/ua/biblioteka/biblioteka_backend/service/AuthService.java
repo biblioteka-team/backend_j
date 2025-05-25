@@ -12,6 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.biblioteka.biblioteka_backend.dao.UserRepository;
 import ua.biblioteka.biblioteka_backend.enums.Role;
+import ua.biblioteka.biblioteka_backend.exception.EmailAlreadyExistsException;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +25,13 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
 
     public AuthDTO register(RegisterDTO registerDTO) {
+
+        Optional<User> existingUser = userRepository.findByEmail(registerDTO.getEmail());
+        if (existingUser.isPresent()) {
+            throw new EmailAlreadyExistsException(registerDTO.getEmail());
+        }
+
+
         User user = User.builder()
                 .name(registerDTO.getName())
                 .email(registerDTO.getEmail())
