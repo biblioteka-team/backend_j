@@ -30,16 +30,16 @@ public class Book {
     private int year;
     private String description;
 
-    @Field("category")
+
     private Category category;
 
-    @Field("subcategories")
+
     private List<Subcategory> subcategories;
 
-    private int ageRestriction;
+    private Integer ageRestriction;
     private BigDecimal price;
     private int quantity;
 
-    @Field("language")
-    private Language language;
+
+    private List<Language> languages;
 }

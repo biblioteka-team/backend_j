@@ -26,7 +26,7 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
     }
 
     @Override
-    public Page<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories, BigDecimal price, Language language, Pageable pageable) {
+    public Page<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories, BigDecimal min, BigDecimal max, String publisher, Integer ageRestriction, List<Language> languages, Pageable pageable) {
         List<Criteria> criteriaList = new ArrayList<>();
 
         if (title != null && !title.isBlank()) {
@@ -37,6 +37,15 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
             criteriaList.add(Criteria.where("author").regex(author, "i")); // масив авторів
         }
 
+        if (publisher != null && !publisher.isBlank()) {
+            criteriaList.add(Criteria.where("publisher").regex(publisher, "i")); // масив авторів
+        }
+
+        if (ageRestriction != null) {
+           criteriaList.add(Criteria.where("ageRestriction").lte(ageRestriction));
+       }
+
+
         if (category != null) {
             criteriaList.add(Criteria.where("category").in(category));
         }
@@ -45,13 +54,20 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
             criteriaList.add(Criteria.where("subcategories").in(subcategories));
 
         }
-
-        if (price != null) {
-            criteriaList.add(Criteria.where("price").lte(price));
+        if (min != null && max != null) {
+            criteriaList.add(Criteria.where("price").gte(min).lte(max));
+        } else if (min != null) {
+            criteriaList.add(Criteria.where("price").gte(min));
+        } else if (max != null) {
+            criteriaList.add(Criteria.where("price").lte(max));
         }
 
-        if (language != null) {
-            criteriaList.add(Criteria.where("language").is(language));
+//        if (price != null) {
+//            criteriaList.add(Criteria.where("price").lte(price));
+//        }
+
+        if (languages != null && !languages.isEmpty()) {
+            criteriaList.add(Criteria.where("languages").in(languages));
         }
 
         Criteria finalCriteria = new Criteria();
@@ -67,5 +83,6 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
 
 
     }
+
 
 }

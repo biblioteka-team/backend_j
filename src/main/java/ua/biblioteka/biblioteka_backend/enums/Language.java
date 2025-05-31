@@ -19,14 +19,20 @@ public enum Language {
         return mongoLanguageCode;
     }
 
-//    @JsonCreator
-//    public static Language fromValue(String value) {
-//        for (Language language : values()) {
-//            if (language.mongoCode.equalsIgnoreCase(value) || language.name().equalsIgnoreCase(value)) {
-//                return language;
-//            }
-//        }
-//        throw new IllegalArgumentException("Unknown language: " + value);
-//    }
+    @JsonCreator
+    public static Language fromValue(String value) {
+        for (Language language : values()) {
+            if (language.mongoLanguageCode.equalsIgnoreCase(value) || language.name().equalsIgnoreCase(value)) {
+                return language;
+            }
+        }
+        throw new IllegalArgumentException("Unknown language: " + value);
+    }
+
+    @JsonValue
+    @Override
+    public String toString() {
+        return this.mongoLanguageCode;
+    }
 }
 

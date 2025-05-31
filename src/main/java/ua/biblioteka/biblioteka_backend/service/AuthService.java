@@ -7,12 +7,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import ua.biblioteka.biblioteka_backend.dto.AuthDTO;
 import ua.biblioteka.biblioteka_backend.dto.LoginDTO;
 import ua.biblioteka.biblioteka_backend.dto.RegisterDTO;
+import ua.biblioteka.biblioteka_backend.dto.UserDTO;
 import ua.biblioteka.biblioteka_backend.entity.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.biblioteka.biblioteka_backend.dao.UserRepository;
 import ua.biblioteka.biblioteka_backend.enums.Role;
 import ua.biblioteka.biblioteka_backend.exception.EmailAlreadyExistsException;
+import ua.biblioteka.biblioteka_backend.mapper.UserMapper;
 
 import java.util.Optional;
 
@@ -23,6 +25,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final UserMapper userMapper;
 
     public AuthDTO register(RegisterDTO registerDTO) {
 
@@ -31,19 +34,16 @@ public class AuthService {
             throw new EmailAlreadyExistsException(registerDTO.getEmail());
         }
 
-
-        User user = User.builder()
-                .name(registerDTO.getName())
-                .email(registerDTO.getEmail())
-                .password(passwordEncoder.encode(registerDTO.getPassword()))
-                .role(Role.USER)
-                .enabled(true)
-                .build();
+        User user = userMapper.fromRegisterDTO(registerDTO);
+        user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
 
         userRepository.save(user);
-        String jwtToken= jwtService.generateToken(user);
 
-        return new AuthDTO(jwtToken);
+        String jwtToken = jwtService.generateToken(user);
+        UserDTO userDTO = userMapper.toDO(user);
+
+        return new AuthDTO(jwtToken, userDTO);
+
     }
 
     public AuthDTO login(LoginDTO loginDTO){
@@ -57,7 +57,8 @@ public class AuthService {
                 .orElseThrow(() -> new RuntimeException("User not founded"));
 
         String jwtToken = jwtService.generateToken(user);
-        return new AuthDTO(jwtToken);
+        UserDTO userDTO = userMapper.toDO(user);
+        return new AuthDTO(jwtToken, userDTO);
     }
 
     public String logout() {

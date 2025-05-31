@@ -1,5 +1,6 @@
 package ua.biblioteka.biblioteka_backend.dto;
 
+import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 import ua.biblioteka.biblioteka_backend.enums.Category;
 import ua.biblioteka.biblioteka_backend.enums.Language;
@@ -20,6 +21,9 @@ public class BookRequestDto {
     private int ageRestriction;
     private BigDecimal price;
     private int quantity;
-    private Language language;
+
+    @NotEmpty(message = "At least one language is required")
+    private List<Language> languages;
+
     private List<ImageRequestDto> images;
 }

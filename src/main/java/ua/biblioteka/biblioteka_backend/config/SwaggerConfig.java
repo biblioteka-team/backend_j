@@ -22,8 +22,8 @@ public class SwaggerConfig {
                 .servers(
                         List.of(
                                 new Server()
-//                                        .url("http://localhost:8080")
-                                        .url("https://biblioteka-backend-btd3.onrender.com")
+                                        .url("http://localhost:8080")
+//                                        .url("https://biblioteka-backend-btd3.onrender.com")
                         )
                 )
                 .info(

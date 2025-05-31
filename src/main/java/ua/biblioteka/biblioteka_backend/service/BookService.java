@@ -81,10 +81,10 @@ public class BookService {
 
     public Page<BookResponseDto> searchBooks(String title,
                                      String author, Category category,
-                                     List<Subcategory> subcategories, BigDecimal price,
-                                     Language language, Pageable pageable) {
+                                     List<Subcategory> subcategories, BigDecimal min, BigDecimal max, String publisher, Integer ageRestriction,
+                                             List<Language> languages, Pageable pageable) {
         Page<Book> books = bookRepository.searchBooks(title, author,
-                category, subcategories, price, language, pageable);
+                category, subcategories, min, max, publisher, ageRestriction, languages, pageable);
         return books.map(bookMapper::toResponseDto);
 
     }
@@ -113,17 +113,25 @@ public class BookService {
         book.setAgeRestriction(dto.getAgeRestriction());
         book.setPrice(dto.getPrice());
         book.setQuantity(dto.getQuantity());
-        book.setLanguage(dto.getLanguage());
+        book.setLanguages(dto.getLanguages());
 
         if (dto.getImages() != null) {
+
             List<Image> images = dto.getImages().stream()
-                    .map(imageId -> {
-                        Image image = new Image();
-                        image.setId(String.valueOf(id));
-                        return image;
-                    })
+                    .map(imageDto -> imageRepository.findById(imageDto.getId())
+                            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Image not found with id: " + imageDto.getId()))
+                    )
                     .collect(Collectors.toList());
             book.setImages(images);
+//            List<Image> images = dto.getImages().stream()
+//                    .map(imageId -> {
+//                        Image image = new Image();
+//                        image.setId(String.valueOf(id));
+//
+//                        return image;
+//                    })
+//                    .collect(Collectors.toList());
+//            book.setImages(images);
         }
 
         Book updatedBook = bookRepository.save(book);

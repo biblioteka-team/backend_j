@@ -20,6 +20,7 @@ public enum Subcategory {
     MYSTICISM,
     TRAVEL,
     COOKING,
+    ARTS_CULTURE,
 
     // CHILDREN
     FAIRY_TALES,

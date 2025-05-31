@@ -21,6 +21,6 @@ public class BookResponseDto {
     private int ageRestriction;
     private BigDecimal price;
     private int quantity;
-    private Language language;
+    private List<Language> languages;
     private List<ImageResponseDto> images;
 }
