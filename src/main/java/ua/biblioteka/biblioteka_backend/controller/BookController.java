@@ -133,4 +133,67 @@ public class BookController {
         return ResponseEntity.ok(promotionService.findByBookId(bookId));
     }
 
+    @Operation(summary = "Get bestseller books from params")
+    @GetMapping("/bestseller/search")
+    public Page<BookResponseDto> searchBestBooks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy,
+
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) Category category,
+            @RequestParam(required = false) List<Subcategory> subcategories,
+            @RequestParam(required = false) BigDecimal min,
+            @RequestParam (required = false) BigDecimal max,
+            @RequestParam(required = false) Integer ageRestriction,
+            @RequestParam(required = false) String publisher,
+            @RequestParam(required = false) List<Language> languages
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return bookService.searchBooks(title, author, category, subcategories, min, max, publisher, ageRestriction, languages, pageable);
+    }
+
+    @Operation(summary = "Get promotion books from params")
+    @GetMapping("/promotion/search")
+    public Page<BookResponseDto> searchPromBooks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy,
+
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) Category category,
+            @RequestParam(required = false) List<Subcategory> subcategories,
+            @RequestParam(required = false) BigDecimal min,
+            @RequestParam (required = false) BigDecimal max,
+            @RequestParam(required = false) Integer ageRestriction,
+            @RequestParam(required = false) String publisher,
+            @RequestParam(required = false) List<Language> languages
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return bookService.searchBooks(title, author, category, subcategories, min, max, publisher, ageRestriction, languages, pageable);
+    }
+
+    @Operation(summary = "Get new books from params")
+    @GetMapping("/new/search")
+    public Page<BookResponseDto> searchNewBooks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "title") String sortBy,
+
+            @RequestParam(required = false) String title,
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false) Category category,
+            @RequestParam(required = false) List<Subcategory> subcategories,
+            @RequestParam(required = false) BigDecimal min,
+            @RequestParam (required = false) BigDecimal max,
+            @RequestParam(required = false) Integer ageRestriction,
+            @RequestParam(required = false) String publisher,
+            @RequestParam(required = false) List<Language> languages
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return bookService.searchBooks(title, author, category, subcategories, min, max, publisher, ageRestriction, languages, pageable);
+    }
+
 }
