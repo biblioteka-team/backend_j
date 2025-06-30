@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum Language {
-//    UK, EN
+//    UK, EN;
 
     UK("uk"),
     EN("en");
@@ -29,10 +29,6 @@ public enum Language {
         throw new IllegalArgumentException("Unknown language: " + value);
     }
 
-    @JsonValue
-    @Override
-    public String toString() {
-        return this.mongoLanguageCode;
-    }
+
 }
 

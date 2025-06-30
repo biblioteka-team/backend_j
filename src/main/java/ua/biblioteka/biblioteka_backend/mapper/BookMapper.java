@@ -32,7 +32,7 @@ public class BookMapper {
         dto.setPrice(book.getPrice());
         dto.setQuantity(book.getQuantity());
         dto.setAgeRestriction(book.getAgeRestriction());
-        dto.setLanguages(book.getLanguages());
+        dto.setLanguage(book.getLanguage());
         dto.setImages(book.getImages().stream()
                 .map(imageMapper::toResponseDto)
                 .collect(Collectors.toList())
@@ -54,7 +54,7 @@ public class BookMapper {
         book.setPrice(dto.getPrice());
         book.setQuantity(dto.getQuantity());
         book.setAgeRestriction(dto.getAgeRestriction());
-        book.setLanguages(dto.getLanguages());
+        book.setLanguage(dto.getLanguage());
         book.setImages(dto.getImages().stream()
                 .map(imageMapper::toEntity)
                 .collect(Collectors.toList())

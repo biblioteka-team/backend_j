@@ -13,7 +13,7 @@ import java.util.List;
 public interface BookCustomRepository {
 
     Page<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories,
-                           BigDecimal min, BigDecimal max, String publisher, Integer ageRestriction, List<Language> languages, Pageable pageable);
+                           BigDecimal min, BigDecimal max, String publisher, Integer ageRestriction, Language language, Pageable pageable);
 
 
 }

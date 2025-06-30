@@ -82,9 +82,9 @@ public class BookService {
     public Page<BookResponseDto> searchBooks(String title,
                                      String author, Category category,
                                      List<Subcategory> subcategories, BigDecimal min, BigDecimal max, String publisher, Integer ageRestriction,
-                                             List<Language> languages, Pageable pageable) {
+                                             Language language, Pageable pageable) {
         Page<Book> books = bookRepository.searchBooks(title, author,
-                category, subcategories, min, max, publisher, ageRestriction, languages, pageable);
+                category, subcategories, min, max, publisher, ageRestriction, language, pageable);
         return books.map(bookMapper::toResponseDto);
 
     }
@@ -113,7 +113,7 @@ public class BookService {
         book.setAgeRestriction(dto.getAgeRestriction());
         book.setPrice(dto.getPrice());
         book.setQuantity(dto.getQuantity());
-        book.setLanguages(dto.getLanguages());
+        book.setLanguage(dto.getLanguage());
 
         if (dto.getImages() != null) {
 

@@ -23,7 +23,7 @@ public class BookRequestDto {
     private int quantity;
 
     @NotEmpty(message = "At least one language is required")
-    private List<Language> languages;
+    private Language language;
 
     private List<ImageRequestDto> images;
 }

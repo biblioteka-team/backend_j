@@ -40,6 +40,6 @@ public class Book {
     private BigDecimal price;
     private int quantity;
 
-
-    private List<Language> languages;
+    @Field("language")
+    private Language language;
 }

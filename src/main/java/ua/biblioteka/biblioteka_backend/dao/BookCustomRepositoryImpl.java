@@ -26,7 +26,7 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
     }
 
     @Override
-    public Page<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories, BigDecimal min, BigDecimal max, String publisher, Integer ageRestriction, List<Language> languages, Pageable pageable) {
+    public Page<Book> searchBooks(String title, String author, Category category, List<Subcategory> subcategories, BigDecimal min, BigDecimal max, String publisher, Integer ageRestriction, Language language, Pageable pageable) {
         List<Criteria> criteriaList = new ArrayList<>();
 
         if (title != null && !title.isBlank()) {
@@ -66,8 +66,8 @@ public class BookCustomRepositoryImpl implements BookCustomRepository{
 //            criteriaList.add(Criteria.where("price").lte(price));
 //        }
 
-        if (languages != null && !languages.isEmpty()) {
-            criteriaList.add(Criteria.where("languages").in(languages));
+        if (language != null) {
+            criteriaList.add(Criteria.where("language").is(language));
         }
 
         Criteria finalCriteria = new Criteria();
